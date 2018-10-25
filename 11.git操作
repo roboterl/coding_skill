@@ -1,9 +1,11 @@
-http://wiki.jikexueyuan.com/project/git-tutorial
 
-===========================================================================
+http://wiki.jikexueyuan.com/project/git-tutorial
 安装：
 $ sudo apt-get install git
 
+===========================================
+      将本地已有文件夹同步至github
+===========================================
 初始化：
 $ mkdir mygit
 $ cd mygit
@@ -11,9 +13,33 @@ $ git init
 $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 
-存档两步走：
+提交 + 提交声明：
 $ git add readme.txt   修改放入暂存区
-$ git commit -m "本次修改说明"   将暂存区中文件转入版本库并清空暂存区
+$ git commit -m "本次修改说明"   将暂存区中文件转入版本库，并清空暂存区
+
+创建远程Git仓库：
+1.生成SSH Key：
+$ ssh-keygen -t rsa -C "liang.cao@live.com"
+2.登陆 GitHub，打开“Account settings”，“SSH Keys”页面：
+3.然后，点“Add SSH Key”，填上任意 Title，在 Key 文本框里粘贴id_rsa.pub文件的内容：
+4.登陆 GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库
+
+远程仓库关联至本地：
+$ cd mygit
+$ git remote add origin git@github.com:roboterl/mygit.git
+
+本地内容推送至远程：
+$ git push -u origin master
+
+
+===========================================
+                 基本操作
+===========================================
+显示中文字符：
+git config --global core.quotepath false
+
+终端显示不完整，出现(END):
+$ q 退出
 
 查看文件修改信息：
 $ git status
@@ -35,21 +61,6 @@ $ git reflog
 撤销动作：
 $ git checkout -- readme.txt 用版本库文件替换工作区
 $ git reset HEAD readme.txt 撤销暂存区的修改
-
-===========================================================================
-创建一个远程Git仓库：
-1.生成SSH Key：
-$ ssh-keygen -t rsa -C "liang.cao@live.com"
-2.登陆 GitHub，打开“Account settings”，“SSH Keys”页面：
-3.然后，点“Add SSH Key”，填上任意 Title，在 Key 文本框里粘贴id_rsa.pub文件的内容：
-4.登陆 GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库
-
-远程仓库关联至本地仓库：
-$ cd mygit
-$ git remote add origin git@github.com:roboterl/mygit.git
-
-本地内容推送至远程仓库：
-$ git push -u origin master
 
 从远程库克隆
 $ git clone git@github.com:roboterl/gitskills.git
