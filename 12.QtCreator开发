@@ -1,0 +1,22 @@
+01.图标启动同时加载ROS环境参数:
+$ gedit ~/.local/share/applications/QtProject-qtcreator-ros-latest.desktop
+第二行Exec后增加'bash -i -c'
+Exec=bash -i -c /home/liang/QtCreator/latest/bin/qtcreator-ros
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

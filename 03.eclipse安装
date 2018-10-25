@@ -1,0 +1,187 @@
+1. 下载并解压至/opt/eclipse-oxygen：
+cd ~/Downloads
+解压出文件夹：eclipse
+sudo mv eclipse /opt/eclipse-oxygen
+
+2. 添加桌面快捷方式，在/usr/share/applications中新建eclipse-neon.desktop文件:
+sudo gedit /usr/share/applications/eclipse-oxygen.desktop
+
+[Desktop Entry]
+Version=4.7.2 (Oxygen)
+Name=Eclipse Oxygen CDT
+GenericName=IDE
+Comment=Eclipse IDE for C/C++ Developers
+Exec=bash -i -c /opt/eclipse-oxygen/eclipse
+Terminal=false
+Icon=/opt/eclipse-oxygen/icon.xpm
+Type=Application
+Categories=Application;IDE;
+
+保存至:/usr/share/applications/eclipse-oxygen.desktop
+
+3. 配置终端启动方法二），建立一个软连接至/usr/local/bin：
+cd /usr/local/bin
+sudo ln -s /opt/eclipse-oxygen/eclipse
+
+4. 安装Oracle JDK 8：
+官网下载 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+cd ~/Downloads
+解压出文件夹：jdk1.8.0_152
+
+安装至 /usr/lib/jvm/jdk1.8.0_152：
+sudo mkdir /usr/lib/jvm
+sudo mv jdk1.8.0_152 /usr/lib/jvm/
+
+添加环境变量：
+sudo gedit /etc/profile
+
+#set Java environment
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_152  
+export JRE_HOME=${JAVA_HOME}/jre    
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib    
+export PATH=${JAVA_HOME}/bin:$PATH
+
+使生效
+source /etc/profile
+
+软连接，部分软件可能会从/usr/bin目录下查找java，因此添加该软连接是以防万一
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.8.0_152/bin/java 300
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.8.0_152/bin/javac 300
+
+测试是否成功安装，输入命令测试
+java -version
+--> java version "1.8.0_152"
+
+5. 安装Subclipse插件
+在Eclipse中下载安装Subclipse插件,打开eclipse， Help->marketPlace，在搜索框Find中输入subclipse，点击右边的Go按钮查询,安装。
+Subclipse 4.2.3
+
+6. 安装subversion 1.9:
+svn --version
+
+系统自带已安装，显示-->
+svn，版本 1.9.3 (r1718519)
+编译于 Aug 10 2017，16:59:15 在 x86_64-pc-linux-gnu
+
+7. 安装JavaHL库:
+sudo apt-get install libsvn-java
+
+查看安装路径：
+sudo find / -name libsvnjavahl-1.so
+显示 -->
+/usr/lib/x86_64-linux-gnu/jni/libsvnjavahl-1.so
+
+修改eclipse.ini文件，在-vmargs后添加JavaHL路径：
+gksu gedit /opt/eclipse-oxygen/eclipse.ini
+
+-vmargs
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+-Djava.library.path=/usr/lib/x86_64-linux-gnu/jni
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+-Dosgi.requiredJavaVersion=1.8
+
+
+
+
+
+===========================================
+8. =         配置global setting:           =
+===========================================
+[Window] -> [Preferences] -> [C/C++] -> [Build] -> [Settings] -> Discovery标签:
+
+选中 CDT GCC Build Output Parser [Shared]:
+更改 Compiler command pattern:
+(.*gcc)|(.*[gc]\+\+)|(.*clang)
+更改 Container to keep discovered entries为最后一个选项: 
+Project(use when settings are the same for all files in the project)
+-> Apply and Close
+
+选中 CDT GCC Buillt-in Compiler Settings [Shared]:
+更改 Command to get compiler specs: 
+${COMMAND} -E -P -v -dD -std=c++11 "${INPUTS}"
+-> Apply and Close
+
+9. ROS compile script for Eclipse IDE:
+在解决使用Eclipse编译代码的问题之前, 首先要解决的就是source /opt/ros/indigo/setup.bash的问题. 在命令行中通过命令catkin_make可以完成编译, 是因为这个脚本已经写入到~/.bashrc中, 打开命令行时已经被source.
+
+gksu gedit /usr/local/bin/eclipsemake
+#!/bin/bash
+source /opt/ros/kinetic/setup.bash
+make "$@" VERBOSE=1 -j8
+
+gksu gedit /usr/local/bin/eclipsemake-tests
+#!/bin/bash
+source /opt/ros/kinetic/setup.bash
+make "$@" VERBOSE=1 -j8 run_tests
+
+最后, 再更改两个文件的权限: 
+sudo chmod +x /usr/local/bin/eclipsemake*
+
+
+
+
+===========================================
+10.=     配置rospackage to Eclipse:        =
+===========================================
+eclipse workspace:
+/home/liang/catkin_ws/src
+
+右键[Project] -> [Properties] -> 选中[C/C++ Build]：
+更改Build command: eclipsemake
+更改Build location：/home/liang/catkin_ws/build/PROJECT_NAME
+
+[C/C++ Build] -> [Environment] 中添加一个变量:
+VERBOSE, value = 1.
+
+[C/C++ General] -> [Paths and Symbols] -> 标签[#Symbols] -> GNU C++ -> 添加：
+__GXX_EXPERIMENTAL_CXX0X__， 不设定任何值，
+勾选 Add to all configurations
+
+[C/C++ General] -> [Preprocessor Includes Paths, Macros etc.] -> 标签[Providers]：
+勾选
+CDT GCC Build Output Parser [Shared]
+选中 --> Use global provider shared between projects
+CDT GCC Built-in Compiler Settings [Shared]
+选中 --> Use global provider shared between projects
+-> Apply and Close
+
+右键[Project] -> [clean Project] -> [build Project]
+
+
+
+
+============================================================================================
+11. 几个常用的Eclipse插件:
+用Eclipse Neon做ROS开发需要几个常用的插件，可以大大加速开发的进度。
+安装方法: 打开eclipse，点击菜单“Help->Install New Software ...”，填入网址
+
+1.常用插件
+a.CMake Editer
+地址：http://cmakeed.sourceforge.net/eclipse/
+
+b.PyDev
+地址： http://www.pydev.org/updates
+
+c.Rinzo XML Editor
+地址：http://editorxml.sourceforge.net/updates/
+
+12. 安装中文
+点击菜单“Help->Install New Software ...”，填入网址
+http://download.eclipse.org/technology/babel/update-site/R0.15.0/oxygen
+
+切换语言：
+手动：
+eclipse -nl en
+
+自动：
+在eclipse安装目录找到eclipse.ini文件
+在末尾加入 -Duser.language=en重启eclipse就能看到是英文版的了。
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+0. 更新当前安装的软件及索引：
+$ sudo apt-get update && sudo apt-get upgrade -y
+
+1. 安装所有额外的rqt相关的功能包：
+$ sudo apt-get install ros-kinetic-rqt
+
+2. 安装 QtCreator：(不要装！)
+$ sudo apt-get install qtcreator
+
+3. 安装 ROS Qt Creator Plug-in：(建议直接安装下面插件版本！)
+https://ros-industrial.github.io/ros_qtc_plugin/_source/How-to-Install-Users.html
+
+4. 安装 dependent packages for TurtleBot3 control：
+$ sudo apt-get install ros-kinetic-joy ros-kinetic-teleop-twist-joy ros-kinetic-teleop-twist-keyboard ros-kinetic-laser-proc ros-kinetic-rgbd-launch ros-kinetic-depthimage-to-laserscan ros-kinetic-rosserial-arduino ros-kinetic-rosserial-python ros-kinetic-rosserial-server ros-kinetic-rosserial-client ros-kinetic-rosserial-msgs ros-kinetic-amcl ros-kinetic-map-server ros-kinetic-move-base ros-kinetic-urdf ros-kinetic-xacro ros-kinetic-compressed-image-transport ros-kinetic-rqt-image-view ros-kinetic-gmapping ros-kinetic-navigation ros-kinetic-interactive-markers
+
+5. PC安装Turtlebot功能包：
+$ cd ~/catkin_ws/src/
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+$ cd ~/catkin_ws && catkin_make
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+6. Pi3上安装ROS及Turtlebot功能包：
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/ROBOTIS-GIT/hls_lfcd_lds_driver.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+
+Delete some packages that are only used in Remote PC：
+$ cd ~/catkin_ws/src/turtlebot3
+$ sudo rm -r turtlebot3_description/ turtlebot3_teleop/ turtlebot3_navigation/ turtlebot3_slam/ turtlebot3_example/
+
+Install dependent packages：
+$ sudo apt-get install ros-kinetic-rosserial-python ros-kinetic-tf
+
+Build packages:
+$ cd ~/catkin_ws && catkin_make
+
+USB Setting:
+$ rosrun turtlebot3_bringup create_udev_rules
+
+设置静态ip, 开启ssh　(详见pi3)，设置各自bashrc：
+
+OpenCR1.0 Firmware Upload for TB3：
+http://emanual.robotis.com/docs/en/platform/turtlebot3/opencr_setup/#opencr-setup
+$ export OPENCR_PORT=/dev/ttyACM0
+$ export OPENCR_MODEL=burger
+$ rm -rf ./opencr_update.tar.bz2
+$ wget https://github.com/ROBOTIS-GIT/OpenCR/raw/develop/arduino/opencr_release/shell_update/opencr_update.tar.bz2 && tar -xvf opencr_update.tar.bz2 && cd ./opencr_update && ./update.sh $OPENCR_PORT $OPENCR_MODEL.opencr && cd ..
+
+
+７.在Pc上设置 Arduino IDE：
+http://emanual.robotis.com/docs/en/parts/controller/opencr10/#arduino-ide
+USB Port Settings
+$ wget https://raw.githubusercontent.com/ROBOTIS-GIT/OpenCR/master/99-opencr-cdc.rules
+$ sudo cp ./99-opencr-cdc.rules /etc/udev/rules.d/
+$ sudo udevadm control --reload-rules
+$ sudo udevadm trigger
+
+Compiler Settings
+sudo apt-get install libncurses5-dev:i386
+
+Install Arduino IDE(Linux)
+$ cd ~/tools/arduino-XXX.XX.XX
+$ ./install.sh
+$ gedit ~/.bashrc
+$ export PATH=$PATH:$HOME/Tools/arduino-XXX.XX.XX
+$ source ~/.bashrc
+
+run
+$ arduino
+参考在线教程设置。
+
+gedit ~/.bashrc
+export TURTLEBOT3_MODEL=burger
+source ~/.bashrc
+
+
+
+
+
+
+
+

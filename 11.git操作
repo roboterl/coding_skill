@@ -1,0 +1,84 @@
+http://wiki.jikexueyuan.com/project/git-tutorial
+
+===========================================================================
+安装：
+$ sudo apt-get install git
+
+初始化：
+$ mkdir mygit
+$ cd mygit
+$ git init
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+存档两步走：
+$ git add readme.txt   修改放入暂存区
+$ git commit -m "本次修改说明"   将暂存区中文件转入版本库并清空暂存区
+
+查看文件修改信息：
+$ git status
+$ git diff readme.txt
+
+查看修改历史：
+$ git log
+$ git log --pretty=oneline  简要一行
+
+回滚之前版本：
+$ git reset --hard HEAD^  回滚一次
+$ git reset --hard HEAD^^  回滚两次
+$ git reset --hard HEAD~100  回滚100次  
+$ git reset --hard 16967e...  直接指定回滚id
+
+自己输入命令历史：
+$ git reflog
+
+撤销动作：
+$ git checkout -- readme.txt 用版本库文件替换工作区
+$ git reset HEAD readme.txt 撤销暂存区的修改
+
+===========================================================================
+创建一个远程Git仓库：
+1.生成SSH Key：
+$ ssh-keygen -t rsa -C "liang.cao@live.com"
+2.登陆 GitHub，打开“Account settings”，“SSH Keys”页面：
+3.然后，点“Add SSH Key”，填上任意 Title，在 Key 文本框里粘贴id_rsa.pub文件的内容：
+4.登陆 GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库
+
+远程仓库关联至本地仓库：
+$ cd mygit
+$ git remote add origin git@github.com:roboterl/mygit.git
+
+本地内容推送至远程仓库：
+$ git push -u origin master
+
+从远程库克隆
+$ git clone git@github.com:roboterl/gitskills.git
+$ git clone https://github.com/roboterl/gitskills.git
+
+
+===========================================================================
+参与分支项目
+1.项目主页：Fork
+2.克隆源仓库：$ git clone git@github.com:roboterl/XXXX.git
+3.修改并提交：$ git add 文件名
+            $ git commit -m "说明"
+4.推送至本人远程仓库： $ git push -u origin master
+5.贡献代码给源仓库：pull request
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

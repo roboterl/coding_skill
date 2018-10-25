@@ -1,0 +1,239 @@
+一. Win10
+进win10，用EasyBCD工具删除掉ubuntu引导，选择windows所在分区，将windows作为主引导。
+右击“计算机”-“管理”-“磁盘管理”，删除ubuntu所有分区，保持"未分配"属性。
+删除efi分区：
+    打开cmd --> diskpart
+    -->list disk
+    -->sel disk 0: efi分区所在硬盘编号
+    -->list par
+    -->sel par 7: efi分区的编号
+    -->delete partition override
+重启。
+制作ubuntu启动盘，进BIOS (F1) 修改开机顺序。
+
+二. 分区
+    SWAP交换空间：主分区，12G。
+    efi系统分区：逻辑分区，512M。
+    /home：逻辑分区，150G。
+    /：逻辑分区，40G
+
+三. 安装app
+--> 设置密码：sudo passwd。
+
+--> 下载搜狗输入法，安装，重启。
+设置-语言支持-fcitx 或 im-config
+终端- fcitx-configtool 添加搜狗， 重启。
+更新源 sudo apt-get update
+
+--> 安装 terminator:
+sudo add-apt-repository ppa:gnome-terminator
+sudo apt-get update
+sudo apt-get install terminator
+sudo dpkg -l | grep <package> 查看安装版本
+
+--> 安装 nautilus-open-termianl：
+sudo apt-get install gksu
+
+--> 添加右键管理员权限。
+进入 Home -> .local -> share -> nautilus -> scripts文件夹，（因为.local文件夹是隐藏的，得按Ctrl+H显示隐藏文件。）然后新建一个名为“open-as-root”的文件。
+
+编辑文件内容如下：
+#!/bin/bash
+# this code will determine exactly the path and the type of object,
+# then it will decide use gedit or nautilus to open it by ROOT permission
+
+# Determine the path
+if [ -e -n $1 ]; then
+obj="$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"
+else
+base="`echo $NAUTILUS_SCRIPT_CURRENT_URI | cut -d'/' -f3- | sed 's/%20/ /g'`"
+obj="$base/${1##*/}"
+fi
+
+# Determine the type and run as ROOT
+if [ -f "$obj" ]; then
+gksu gedit "$obj"
+elif [ -d "$obj" ]; then
+gksu nautilus "$obj"
+fi
+
+exit 0
+
+保存退出。在终端输入以下语句更改文件权限：
+cd .local/share/nautilus/scripts/ && chmod 0755 open-as-root
+
+然后重启nautilus即可（使用命令nautilus -q）或注销即可:
+nautilus -q
+
+--> 系统更新
+sudo apt-get update
+sudo apt-get upgrade
+
+--> 卸载无用软件
+sudo apt-get remove libreoffice-common
+sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot
+sudo apt-get remove gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install
+sudo apt-get remove onboard deja-dup
+sudo apt-get remove unity-webapps-common
+
+--> 安装主题美化软件
+sudo apt-get install unity-tweak-tool 
+
+--> 安装Flatabulous主题：
+sudo add-apt-repository ppa:noobslab/themes
+sudo apt-get update
+sudo apt-get install flatabulous-theme
+
+图标：
+sudo add-apt-repository ppa:noobslab/icons
+sudo apt-get update
+sudo apt-get install ultra-flat-icon
+
+--> 安装雅黑，Monaco字体
+YaHeiConsolas.tar：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz
+
+//解压压缩包
+tar -zxvf YaHeiConsolas.tar.gz
+
+//在系统目录下创建自定义字体目录
+sudo mkdir -p /usr/share/fonts/vista
+
+//复制解压出来的字体到刚才创建的目录
+sudo cp YaHeiConsolas.ttf /usr/share/fonts/vista/
+
+//修改字体权限
+sudo chmod 644 /usr/share/fonts/vista/*.ttf
+
+//进入字体目录
+cd /usr/share/fonts/vista/
+
+//刷新并安装字体
+sudo mkfontscale && sudo mkfontdir && sudo fc-cache -fv
+
+--> Gedit配色
+Ubuntu 中Gedit编辑器还是很好用的，设置成自己习惯的风格可以修改配设方案
+可以通过选择：编辑->首选项->字体和颜色->配色方案，进行设置。
+其配色方案文件的存放路径为：
+/usr/share/gtksourceview-X.0/styles
+可以直接修改如上的文件，来改变配色，修改好之后重启Gedit就可以看到效果了。也可以添加自定义的配色方案文件。
+对gedit来说，这两个网站有比较多的现成的配色方案：
+http://live.gnome.org/GtkSourceView/StyleSchemes
+https://github.com/mig/gedit-themes
+
+--> 安装 goldendict- 添加词典目录- 修改wiki链接 
+https://de.wiktionary.org/w
+
+--> 安装 shutter:
+sudo add-apt-repository ppa:shutter/ppa
+sudo apt-get update
+sudo apt-get install shutter
+
+--> 安装 vim:
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt-get update
+sudo apt install vim
+vim –version 查看版本
+
+--> 安装 FoxitReader:
+su
+cd /home/liang/Downloads
+./'FoxitReader.enu.setup.2.4.1.0609(r08f07f8).x64.run'
+
+--> 安装 texlive 和 texstudio:
+apt-get install texlive-full
+软件库搜索安装texstudio
+
+--> 安装 vlc:
+sudo add-apt-repository ppa:videolan/master-daily
+sudo apt-get update
+sudo apt-get install vlc
+
+--> 安装 系统负载指示器:
+sudo apt-get install -y indicator-multiload
+--> 安装 经典菜单指示器: (崩溃！不建议安装！！～)
+sudo apt-add-repository ppa:diesch/testing
+sudo apt-get update
+sudo apt-get install classicmenu-indicator
+
+--> 双系统时间对准:
+显示当前时区信息
+timedatectl status
+
+先在ubuntu下更新一下时间，确保时间无误：
+sudo apt-get install ntpdate
+sudo ntpdate time.windows.com
+
+然后将时间更新到硬件上：
+sudo hwclock --localtime --systohc
+重新进入windows10，发现时间恢复正常了！
+
+
+--> 更改grub启动顺序（windows优先）：
+sudo update-grub
+gksu gedit /etc/default/grub
+
+修改：GRUB_DEFAULT= 2
+修改：GURB_TIMEOUT= 5
+从0开始，依次对应的启动序号为：
+0------  *ubunut
+1-------  ubuntu高级选项
+2------   Windows Boot Manager
+3 ------ System  Setup
+
+sudo update-grub
+
+
+四, Ubuntu 16.04备份和恢复
+# 清理旧版本的软件缓存
+sudo apt-get autoclean
+# 清理所有软件缓存
+sudo apt-get clean
+# 删除系统不再使用的孤立软件
+sudo apt-get autoremove
+
+切换到root身份
+su
+
+tar cvpzf /home/liang/Backup/backup_`date +%Y%m%d`.tgz --exclude=/proc --exclude=/lost+found --exclude=/home/liang/Backup/backup_`date +%Y%m%d`.tgz --exclude=/mnt --exclude=/sys --exclude=/media /
+
+v: 显示详细的压缩信息
+c：创建tar包
+j：使用bzip2压缩格式
+z：使用gzip压缩格式
+p：使用绝对路径
+f：生成的压缩文件的路径
+
+恢复系统
+如果原来的Ubuntu系统已经崩溃，无法进入。则可以使用Ubuntu安装U盘（live USB）进入试用Ubuntu界面。
+切换到root用户，找到之前Ubuntu系统的根目录所在磁盘分区（一般电脑上的磁盘分区（假设分区名称为sdaX）均可以在当前Ubuntu系统的根目录下的media目录下（即/media）找到。目录通常为当前根目录下 cd /media/磁盘名称/分区名称）。进入该分区，输入以下指令来删除该根目录下的所有文件：
+sudo rm -rf /media/磁盘名称/分区名称*
+
+将备份文件”backup.tgz”拷入该分区；
+sudo cp -i backup.tgz /media/磁盘名/分区名sdaX
+
+进入分区并将压缩文件解压缩，参数x是告诉tar程序解压缩备份文件。
+sudo tar xvpfz backup.tgz
+
+重新创建那些在备份时被排除在外的目录；
+sudo mkdir proc lost+found mnt sys media
+或者这样：
+mkdir proc
+mkdir lost+found
+mkdir mnt
+mkdir sys
+
+当你重启电脑，你会发现一切东西恢复到你创建备份时的样子了！
+
+五，当windows bios更新或恢复过以后，可能会破坏ubuntu的引导，导致无法启动grub：
+1. U盘启动，选择try ubuntu，连接网络
+2. 打开终端，终端快捷键是Ctrl+Alt+T，输入命令，添加boot-repair所在的源： 
+sudo add-apt-repository ppa:yannubuntu/boot-repair && sudo apt-get update
+3.安装boot-repair并且开启boot-repair： 
+sudo apt-get install -y boot-repair && boot-repair
+4.出现图形界面，点击Recommended repair，过几分钟重启就行了。
+
+
+
+
+
+

@@ -1,0 +1,125 @@
+--> 注册账号
+用户名 pi3，计算机名 ubuntu
+
+--> 开启管理员
+sudo passwd root
+用户组-账号设置管理员权限-取消开机密码-重启
+
+--> 设置静态ip
+网络连接- 编辑- IPV4设置- 手动- 添加：
+IP Address：192.168.2.111
+Subnet Mask: 255.255.255.0
+Default Route: 192.168.2.1
+DNS: 8.8.8.8
+勾选　require ipv4 addressing for this connection to complete
+Broadcast Address: 192.168.2.255
+
+--> 开启ssh
+sudo raspi-config
+3 Interfacing Options -> P2 SSH
+
+通过ssh连接pi (用户名：pi3， IP：192.168.2.107)
+ssh pi3@192.168.2.107 
+
+如与之前密匙产生冲突,显示如下：
+WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+解决：
+ssh-keygen -f "/home/liang/.ssh/known_hosts" -R 192.168.2.111
+
+--> 取出ｓｄ卡，用Gparted 分区,增加boot容量
+拷贝root分区所有文件至本地文件夹.
+选择sd卡-卸载-删除fat16-更改大小ext4(后面留出２Ｇ空间，前面不要移动)
+新建分区(fat16, PI_ROOT)
+复制本地文件夹内容至新建ｒｏｏｔ分区.
+
+--> 系统更新
+sudo apt-get update
+sudo apt-get install gedit
+以下更新不要尝试！！　未经验证可能导致系统崩溃！！
+！！　sudo apt-get upgrade　！！
+
+
+--> 1080P 显示器有黑边
+sudo pluma /boot/config.txt
+第377行，disable_overscan=1 去掉前面注释
+
+
+--> 谷歌浏览器
+System-Administration-Software Boutique-Chromium
+
+
+--> 开机自启动
+取消开机密码
+修改lightdm.conf文件
+sudo gedit /etc/lightdm/lightdm.conf
+如果没有则自己创建一个,内容为:
+[SeatDefaults]
+autologin-user=pi3
+
+
+--> 添加中文输入法
+Control Center-Language Support
+Software Updater (１５分钟更新) - 重启
+fcitx-sun pinyin
+
+--> 通过ssh使用gedit等图形界面
+ssh -X pi3@192.168.2.111
+
+--> 安装ＲＯＳ
+1. 安装
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+sudo apt-get update
+
+sudo apt-get install ros-kinetic-desktop-full
+
+sudo rosdep init
+rosdep update
+
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+printenv | grep ROS
+
+2. 工作空间
+初始化工作空间:
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+
+添加工作路径：
+source devel/setup.bash 或者一次性写入bashrc：
+echo "source /home/pi3/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+3. 创建package(可忽略):
+cd ~/catkin_ws/src
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+cd ~/catkin_ws
+catkin_make
+. ~/catkin_ws/devel/setup.bash
+
+4. 修改ｐｉ的bashrc
+ssh -X pi3@192.168.2.111
+gedit ~/.bashrc
+export ROS_MASTER_URI=http://192.168.2.105:11311
+export ROS_HOSTNAME=192.168.2.111
+export ROS_IP=192.168.2.111
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

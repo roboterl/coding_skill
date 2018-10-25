@@ -1,0 +1,146 @@
+STEP1:《WIFI路由设置》
+1. 用笔记本查看路由器IP:
+$ ip route | grep default | awk '{print $3}'
+--> 192.168.2.1 作为pi的gateway
+
+2.1 打开Pi的SD卡修改参数：/etc/network/interfaces
+##################################################################
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+allow-hotplug eth2
+iface eth2 inet dhcp
+
+#wlan
+auto wlan0
+#allow-hotplug wlan0
+iface wlan0 inet static
+address 192.168.2.2           #自设静态IP
+netmask 255.255.255.0         #子网掩码
+network 192.168.2.1           #同一网段？
+gateway 192.168.2.1           #主路由器IP
+broadcast 192.168.2.255       #广播同一网段？
+##################################################################
+
+2.2 打开Pi的SD卡修改参数：/etc/wpa_supplicant/wpa_supplicant.conf：
+##################################################################
+#ctrl_interface=/var/run/wpa_supplicant
+#ctrl_interface_group=0
+
+eapol_version=2
+ap_scan=1
+fast_reauth=1
+country=DE
+
+network={
+    ssid="TPLEON"                  #路由登录用户名
+    scan_ssid=1                    #可省略
+    psk="015227984022"             #路由登录密码
+    priority=5                     #可省略
+}
+##################################################################
+
+3. 查看是否连接：
+$ ping 192.168.1.32
+$ ssh ubuntu@192.168.1.32    pi_id@pi_ip
+——》 提示输入pi登录密码
+
+
+
+
+STEP2:《具体操作步骤》
+0.查看本机(PC)的ip
+ifconfig
+
+1.PC建立主机信息
+gedit .bashrc
+export ROS_MASTER_URI=http://192.168.2.105:11311  # 想要设置为主机(Master)的IP
+export ROS_HOSTNAME=192.168.2.105  # 主机显示名称
+export ROS_IP=192.168.2.105  # 本机IP
+source .bashrc
+
+2. 连接PI
+ping 192.168.2.2
+ssh ubuntu@192.168.2.2
+17pp9430
+
+3. Pi(从机)添加主机信息
+nano .bashrc
+export ROS_MASTER_URI=http://192.168.2.105:11311 # 主机(Master)的IP
+export ROS_HOSTNAME=192.168.2.2 # 从机显示名称
+export ROS_IP=192.168.2.2 # 从机IP
+source .bashrc
+
+4.控制
+PC打开节点管理器：
+roscore
+
+PC开启nxt控制节点：
+rosrun nxt_control nxt_control_node
+
+Pi开启motor节点：
+rosrun nxt_control motor.py
+
+PC发布消息：
+rostopic pub /cmd_vel geometry_msgs/Twist # 空格+Tab
+
+查看节点图：
+rqt_graph
+
+查看具体topic及其message参数：
+rostopic list
+rostopic type /xxx | rosmsg show
+
+5. Laserscan 步骤
+安装urg驱动（ROS kinetic）
+sudo apt-get install ros-kinetic-urg-node
+
+连接URG-04LX至笔记本:
+roscore
+rosrun urg_node urg_node
+rostopic echo scan
+rosbag record /scan -l 100 (保存100条/scan 的message 至 .bag文件)
+rosbag play /home/liang/catkin_ws/2018-03-23-15-35-48.bag (播放 .bag文件)
+rqt_graph
+rosrun rviz rviz (Add: LaserScan - Fixed Frame: laser)
+
+连接URG-04LX至Pi:
+rosrun hokuyo_node hokuyo_node
+rostopic echo scan
+rosrun rviz rviz
+rosrun laserscanner Scan_analyzer (显示识别柱子坐标)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

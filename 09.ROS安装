@@ -1,0 +1,168 @@
+01.安装 ROS:
+添加源：
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+添加密匙：
+sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+
+更新源：
+sudo apt-get update
+
+完整安装：
+sudo apt-get install ros-kinetic-desktop-full
+
+初始化rosdep：
+sudo rosdep init
+rosdep update
+
+配置环境写入bashrc：
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+安装依赖包：
+sudo apt-get install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+检查环境：
+printenv | grep ROS
+或：
+export | grep ROS
+
+
+02.配置工作空间
+初始化工作空间:
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+
+添加工作路径：
+source devel/setup.bash 或者
+
+一次性写入bashrc：
+echo "source /home/liang/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+
+03,创建package:
+cd ~/catkin_ws/src
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+cd ~/catkin_ws
+catkin_make
+. ~/catkin_ws/devel/setup.bash
+
+
+04,编写roslaunch:
+sudo apt-get install ros-indigo-rqt ros-indigo-rqt-common-plugins ros-indigo-turtlesim
+roscd beginner_tutorials
+mkdir launch
+cd launch
+
+新建launch文件turtlemimic.launch:
+
+gksu gedit:
+=========================================================
+<launch>
+
+<group ns="turtlesim1">
+<node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+</group>
+
+<group ns="turtlesim2">
+<node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+</group>
+
+<node pkg="turtlesim" name="mimic" type="mimic">
+<remap from="input" to="turtlesim1/turtle1"/>
+<remap from="output" to="turtlesim2/turtle1"/>
+</node>
+
+</launch>
+=========================================================
+
+两个乌龟画圈
+roslaunch beginner_tutorials turtlemimic.launch
+rostopic pub /turtlesim1/turtle1/cmd_vel geometry_msgs/Twist -r 1 -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, -1.8]'
+
+
+05, 创建msg and srv：
+
+创建msg
+roscd beginner_tutorials
+mkdir msg
+echo "int64 num" > msg/Num.msg
+在beginner_tutorials/package.xml文件内加入两行：
+  <build_depend>message_generation</build_depend>
+  <run_depend>message_runtime</run_depend>
+
+在beginner_tutorials/CMakeLists.txt文件内编辑：
+find_package(catkin REQUIRED COMPONENTS
+   roscpp
+   rospy
+   std_msgs
+   message_generation *新加行*
+)
+
+catkin_package(
+  ...
+  CATKIN_DEPENDS message_runtime ... *确保依存*
+  ...)
+
+add_message_files(  *去掉注释*
+  FILES
+  Num.msg
+)
+
+generate_messages(   *去掉注释*
+  DEPENDENCIES
+  std_msgs
+)
+
+创建srv：
+$ roscd beginner_tutorials
+$ mkdir srv
+从rospy_tutorials拷贝srv文件:
+$ roscp rospy_tutorials AddTwoInts.srv srv/AddTwoInts.srv
+
+$ roscd beginner_tutorials
+$ cd ../..
+$ catkin_make install
+$ cd -
+
+06,创建Publisher and Subscriber：
+
+src下新建talker.cpp (https://raw.githubusercontent.com/ros/ros_tutorials/kinetic-devel/roscpp_tutorials/talker/talker.cpp):
+roscd beginner_tutorials
+cd src
+gksu gedit: talker.cpp
+
+src下新建listener.cpp (https://raw.githubusercontent.com/ros/ros_tutorials/kinetic-devel/roscpp_tutorials/listener/listener.cpp)
+gksu gedit: listener.cpp
+
+beginner_tutorials下编写CMakeLists.txt (https://raw.githubusercontent.com/ros/catkin_tutorials/master/create_package_pubsub/catkin_ws/src/beginner_tutorials/CMakeLists.txt)：
+cd ..
+gksu gedit CMakeLists.txt
+
+cd ~/catkin_ws
+catkin_make
+
+
+运行：
+roscore
+source /home/liang/catkin_ws/devel/setup.bash *别忘了source工作空间的setup.bash！*
+rosrun beginner_tutorials talker
+rosrun beginner_tutorials listener
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

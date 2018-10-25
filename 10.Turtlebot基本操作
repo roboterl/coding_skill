@@ -1,0 +1,87 @@
+键盘遥控：
+=================================================================
+PC:
+$ roscore
+
+TB3: 
+开启启动模块:
+$ roslaunch turtlebot3_bringup turtlebot3_robot.launch
+(或分别打开turtlebot3_lidar.launch, turtlebot3_core.launch)
+
+PC:
+开启RVIZ:
+$ export TURTLEBOT3_MODEL=burger
+$ roslaunch turtlebot3_bringup turtlebot3_remote.launch
+$ rosrun rviz rviz -d `rospack find turtlebot3_description`/rviz/model.rviz
+
+键盘&手柄控制:
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+  w/x : increase/decrease linear velocity
+  a/d : increase/decrease angular velocity
+  space key, s : force stop
+  CTRL-C: to quit
+
+RViz控制 (Interactive Marker)：
+$ roslaunch turtlebot3_example interactive_markers.launch
+$ rosrun rviz rviz -d `rospack find turtlebot3_example`/rviz/turtlebot3_interactive.rviz
+
+避障：
+$ rosrun turtlebot3_example turtlebot3_obstacle.py
+
+坐标行驶：
+$ roslaunch turtlebot3_example turtlebot3_pointop_key.launch
+| x | y | z |
+0.3 0.3 150
+
+巡逻：
+$ rosrun turtlebot3_example turtlebot3_server.py
+$ rosrun turtlebot3_example turtlebot3_client.py
+
+SLAM:
+$ roslaunch turtlebot3_slam turtlebot3_slam.launch
+(Rviz查看绘制地图)
+$ rosrun rviz rviz -d `rospack find turtlebot3_slam`/rviz/turtlebot3_slam.rviz
+(手动遥控移动)
+$ roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch
+(保存地图)
+$ rosrun map_server map_saver -f ~/map
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

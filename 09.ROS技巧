@@ -1,0 +1,21 @@
+-> 更新当前安装的软件及索引：
+sudo apt-get update && sudo apt-get upgrade -y
+
+-> 快捷键：
+alias cdw='cd ~/catkin_ws'
+alias cds='cd ~/catkin_ws/src'
+alias cm='cd ~/catkin_ws && catkin_make'
+(取消：unalias cm)
+
+-> 使用git：
+cd ~/git
+git clone https://github.com/ethz-asl/ros_best_practices.git
+ln -s ~/git/ros_best_practices/ ~/catkin_ws/src/
+(将目录链接至工作空间)
+
+-> 查看ROS当前配置：
+export | grep ROS
+
+-> 查看topic及其message参数：
+rostopic list
+rostopic type /xxx | rosmsg show

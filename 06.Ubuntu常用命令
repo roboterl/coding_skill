@@ -1,0 +1,49 @@
+完全安装/卸载方式：
+sudo aptitude install xxxx 安装
+sudo aptitude remove xxxx 卸载
+
+不完全卸载：
+sudo apt-get install xxxx 安装
+sudo apt-get remove xxxx 卸载应用及配置
+sudo apt-get autoremove 清除无用包
+
+ubuntu 升级软件：
+sudo apt-get update 更新源
+sudo apt-get upgrade 更新已安装的包
+sudo apt-get dist-upgrade 升级系统
+
+查看软件安装路径：
+dpkg -l | grep xxxx
+
+看软件安装位置:
+dpkg -L xxxx
+
+
+常用修改权限的命令：
+sudo chmod 600 ××× （只有所有者有读和写的权限）  
+sudo chmod 644 ××× （所有者有读和写的权限，组用户只有读的权限）  
+sudo chmod 700 ××× （只有所有者有读和写以及执行的权限）  
+sudo chmod 666 ××× （每个人都有读和写的权限）  
+sudo chmod 777 ××× （每个人都有读和写以及执行的权限）  
+
+批量修改权限：
+打开终端进入你需要修改的目录，执行命令：
+chmod 777 * -R  
+
+查看当前路径：
+pwd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

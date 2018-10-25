@@ -1,0 +1,10 @@
+1.新建项目
+--> 右上角new --> C++ Project --> Executable --> Hello World --> Linux GCC
+
+2.运行时提示Program file does not exist
+--> 右键项目 --> run as --> local c/c++ application
+
+3.编写程序时显示出错 --> 试试保存。
+
+2.编译文件：
+
