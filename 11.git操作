@@ -67,8 +67,9 @@ $ git clone git@github.com:roboterl/gitskills.git
 $ git clone https://github.com/roboterl/gitskills.git
 
 
-===========================================================================
-参与分支项目
+===========================================
+                 参与分支项目
+===========================================
 1.项目主页：Fork
 2.克隆源仓库：$ git clone git@github.com:roboterl/XXXX.git
 3.修改并提交：$ git add 文件名
