@@ -1,0 +1,24 @@
+C++接口安装
+首先在官网下载你想安装的版本的opencv压缩包，下载连接如下： 
+https://github.com/opencv/opencv/releases
+
+首先，安装一些依赖，根据自己的情况选择，如果不知道自己安装了那些依赖，就都输入一遍，如果已经安装系统会自动跳过，不会重复安装
+$ sudo apt-get install build-essential
+$ sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+$ sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+
+然后，将压缩包解压，我下载我是opencv3.4.3版本，所以最后解压出来的文件夹就是opencv-3.4.3，接着，先用命令行进入该文件夹，然后执行命令，如下所示：
+$ cd ~/opencv-3.4.3
+$ mkdir build
+$ cd build
+
+#cmake指令，如果没有特殊要求建议就选择默认的就可以.注意，后面的两个点千万不能省，代表了上级目录
+$ cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local .. 
+$ make -j7 # 多线程执行make任务
+
+# 最后一步，安装库文件
+$ sudo make install
+
+查看版本：
+$ pkg-config --modversion opencv
+
