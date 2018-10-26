@@ -7,4 +7,9 @@
 3.编写程序时显示出错 --> 试试保存。
 
 2.编译文件：
+在CMakeLists.txt的文件夹中新建build文件夹
+$ cd build
+$ cmake .. 
+$ make
 
+cmake命令将CMakeLists.txt文件转化为make所需要的makefile文件，最后用make命令编译源码生成可执行程序或共享库

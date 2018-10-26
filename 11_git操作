@@ -45,6 +45,10 @@ $ q 退出
 $ git status
 $ git diff readme.txt
 
+提交当前文件夹所有文件：
+$ git add .
+$ git commit -m "本次修改说明"
+
 查看修改历史：
 $ git log
 $ git log --pretty=oneline  简要一行
