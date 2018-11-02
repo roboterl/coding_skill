@@ -17,7 +17,7 @@ $ cd build
 
 cmake编译：
 $ cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -D OPENCV_EXTRA_MODULES_PATH=~/opencv-3.4.3/opencv_contrib-3.4.3/modules -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..
-$ make -j7 # 多线程执行make任务
+$ make -j7  #多线程执行make任务
 $ sudo make install
 
 查看版本：
@@ -27,6 +27,21 @@ $ pkg-config --modversion opencv
 $ git clone https://github.com/opencv/opencv_extra.git
 $ cd opencv_extra
 $ ~/opencv-3.4.3/build/bin/opencv_test_core
+
+环境配置添加库路径：
+$ sudo gedit /etc/ld.so.conf.d/opencv.conf 
+打开后可能是空文件，在文件内容最后添加: /usr/local/lib
+$ sudo ldconfig  #更新系统库
+
+配置bash:
+$ sudo gedit /etc/bash.bashrc 
+
+在末尾添加:
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig  
+export PKG_CONFIG_PATH  
+
+$ sudo source /etc/bash.bashrc
+$ sudo updatedb  
 
 
 

@@ -151,9 +151,14 @@ source /home/liang/catkin_ws/devel/setup.bash *别忘了source工作空间的set
 rosrun beginner_tutorials talker
 rosrun beginner_tutorials listener
 
-
-
-
+=========================================================
+                卸载 ROS kinetic
+=========================================================
+sudo apt-get purge ros-*
+sudo rm -rf /etc/ros
+gedit ~/.bashrc
+找到带有kinetic的那一行删除，保存，然后：
+source ~/.bashrc
 
 
 

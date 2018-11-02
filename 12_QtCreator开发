@@ -3,6 +3,43 @@ $ gedit ~/.local/share/applications/QtProject-qtcreator-ros-latest.desktop
 第二行Exec后增加'bash -i -c'
 Exec=bash -i -c /home/liang/QtCreator/latest/bin/qtcreator-ros
 
+02.快捷键：
+ctrl+A            全选
+ctrl+I            自动对齐
+Ctrl+Z            撤销
+Ctrl+ Shift+ /    注释选中的内容
+Ctrl+ Tab	  快速切换已打开的文件
+Ctrl+ Shift+ U    查找所有引用
+
+
+===========================================================
+           导入已有ROS项目
+===========================================================
+1. 欢迎 ->new project ->其他项目 ->ROS Workspace ->路径选ROS工作空间，名字与ROS工作空间同名 ->项目管理 ->完成
+2. 编辑空间配置文件'catkin_ws.workspace',仿照src格式添加其他文件夹，build, devel等
+3. 修改代码，编译
+4. 项目 ->Run ->运行 ->Add Run Step ->Package/Target：添加要运行的包名和节点名
+5. 终端开启roscore ->qt编译，运行
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
