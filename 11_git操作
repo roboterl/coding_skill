@@ -10,11 +10,12 @@ $ sudo apt-get install git
 $ mkdir mygit
 $ cd mygit
 $ git init
-$ git config --global user.name "Your Name"
-$ git config --global user.email "email@example.com"
+$ git config --global user.name "liang"
+$ git config --global user.email "liang.cao@live.com"
 
 提交 + 提交声明：
 $ git add readme.txt   修改放入暂存区
+$ git add . 所有文件放入暂存区
 $ git commit -m "本次修改说明"   将暂存区中文件转入版本库，并清空暂存区
 
 创建远程Git仓库：

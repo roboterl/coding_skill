@@ -22,6 +22,19 @@ Ctrl+ Shift+ U    查找所有引用
 5. 终端开启roscore ->qt编译，运行
 
 
+===========================================================
+           qt中git配置
+===========================================================
+cd 进入同步文件夹
+$ git init
+$ git config --global push.default simple
+$ git config --global user.name "liang"
+$ git config --global user.email "liang.cao@live.com"
+$ git add . 
+$ git commit -m "本次修改说明"
+$ git remote add origin git@github.com:roboterl/agitr.git
+$ git push -u origin master
+工具-Git-local/romote repository
 
 
 
