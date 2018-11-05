@@ -2,8 +2,10 @@
 $ gedit ~/.local/share/applications/QtProject-qtcreator-ros-latest.desktop
 第二行Exec后增加'bash -i -c'
 Exec=bash -i -c /home/liang/QtCreator/latest/bin/qtcreator-ros
+以上为安装地址，建议安装在/opt 或 /usr/local下面
 
 02.快捷键：
+qtcreator-ros     终端启动qt
 ctrl+A            全选
 ctrl+I            自动对齐
 Ctrl+Z            撤销
@@ -36,7 +38,10 @@ $ git remote add origin git@github.com:roboterl/agitr.git
 $ git push -u origin master
 工具-Git-local/romote repository
 
-
+===========================================================
+           新建ROS Package
+===========================================================
+文件夹右键-添加新文件-ROS—Basic Node-hello -> 生成hello.cpp文件
 
 
 

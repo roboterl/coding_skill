@@ -1,4 +1,6 @@
+===========================================================
 一. Win10
+===========================================================
 进win10，用EasyBCD工具删除掉ubuntu引导，选择windows所在分区，将windows作为主引导。
 右击“计算机”-“管理”-“磁盘管理”，删除ubuntu所有分区，保持"未分配"属性。
 删除efi分区：
@@ -11,13 +13,17 @@
 重启。
 制作ubuntu启动盘，进BIOS (F1) 修改开机顺序。
 
+===========================================================
 二. 分区
+===========================================================
     SWAP交换空间：主分区，12G。
     efi系统分区：逻辑分区，512M。
     /home：逻辑分区，150G。
     /：逻辑分区，40G
 
+===========================================================
 三. 安装app
+===========================================================
 --> 设置密码：sudo passwd。
 
 --> 下载搜狗输入法，安装，重启。
@@ -38,6 +44,7 @@ sudo apt-get install gksu
 进入 Home -> .local -> share -> nautilus -> scripts文件夹，（因为.local文件夹是隐藏的，得按Ctrl+H显示隐藏文件。）然后新建一个名为“open-as-root”的文件。
 
 编辑文件内容如下：
+****************************************************************
 #!/bin/bash
 # this code will determine exactly the path and the type of object,
 # then it will decide use gedit or nautilus to open it by ROOT permission
@@ -58,7 +65,7 @@ gksu nautilus "$obj"
 fi
 
 exit 0
-
+****************************************************************
 保存退出。在终端输入以下语句更改文件权限：
 cd .local/share/nautilus/scripts/ && chmod 0755 open-as-root
 
@@ -183,7 +190,28 @@ gksu gedit /etc/default/grub
 sudo update-grub
 
 
-四, Ubuntu 16.04备份和恢复
+--> 小红点加速：
+$ gedit ~/.xprofile
+
+*****************************************************************
+#!/bin/bash
+
+# obtain TrackPoint ID from xinput list
+TP_ID=$(xinput list | grep TrackPoint | cut -f 2 | grep -Eo '[0-9]{1,}')
+
+if [ -n "$TP_ID" ]; then
+        # obtain properties from xinput list-props "$TP_ID"
+        AS_ID=$(xinput list-props "$TP_ID" | grep 'Accel Constant Deceleration (' | cut -f 2 | grep -Eo '[0-9]{1,}')
+        # set the speed you want
+        xinput set-prop "$TP_ID" "$AS_ID" 0.20 
+fi
+*****************************************************************
+
+
+
+===========================================================
+           四, Ubuntu 16.04备份和恢复
+===========================================================
 # 清理旧版本的软件缓存
 sudo apt-get autoclean
 # 清理所有软件缓存
@@ -203,7 +231,9 @@ z：使用gzip压缩格式
 p：使用绝对路径
 f：生成的压缩文件的路径
 
-恢复系统
+===========================================================
+                        恢复系统
+===========================================================
 如果原来的Ubuntu系统已经崩溃，无法进入。则可以使用Ubuntu安装U盘（live USB）进入试用Ubuntu界面。
 切换到root用户，找到之前Ubuntu系统的根目录所在磁盘分区（一般电脑上的磁盘分区（假设分区名称为sdaX）均可以在当前Ubuntu系统的根目录下的media目录下（即/media）找到。目录通常为当前根目录下 cd /media/磁盘名称/分区名称）。进入该分区，输入以下指令来删除该根目录下的所有文件：
 sudo rm -rf /media/磁盘名称/分区名称*
@@ -236,4 +266,4 @@ sudo apt-get install -y boot-repair && boot-repair
 
 
 
-
+--> 
