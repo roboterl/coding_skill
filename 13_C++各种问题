@@ -13,3 +13,7 @@ $ cmake ..
 $ make
 
 cmake命令将CMakeLists.txt文件转化为make所需要的makefile文件，最后用make命令编译源码生成可执行程序或共享库
+
+导入已有c++项目：
+import-General-Existing Projects into Workspace
+项目属性-C/C++ Build -设置目录，选中Build command:make
