@@ -19,3 +19,8 @@ export | grep ROS
 -> 查看topic及其message参数：
 rostopic list
 rostopic type /xxx | rosmsg show
+
+-> 相关头文件找不到：
+C/C++ General - paths and Symbols - GNU C++ 加入头文件地址：
+Catkin_ws - devel - include
+

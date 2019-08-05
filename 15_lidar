@@ -1,0 +1,28 @@
+安装速腾RS-LiDAR-16 ROS驱动：
+sudo apt-get install libpcap-dev
+cd ~/catkin_ws/src
+git clone https://github.com/RoboSense-LiDAR/ros_rslidar.git
+cd ~/catkin_ws
+catkin_make
+配置电脑系统的静态 IP 地址为“192.168.1.102”，子网掩码为“255.255.255.0”
+roslaunch rslidar_pointcloud rs_lidar_16.launch
+修改rslidar_pointcloud rs_lidar_16.launch中的：
+<!--param name="pcap" value="path_to_pcap"/-->
+取消注释，并将path_to_pcap替换为 pcap 文件的绝对路径。
+
+将bag转为pcd：
+rosrun pcl_ros bag_to_pcd out.bag /velodyne_points ./pcd/
+
+查看bag信息：
+rosbag info out.bag
+
+查看bag中对应topic的frame_id：
+rostopic echo /topic | grep frame_id
+
+重映射topic信息（将out.bag中point_cloud转为velodyne_points）：
+rosbag play out.bag  /point_cloud:=/velodyne_points
+
+将point_cloud转为laserscan：
+rosrun pointcloud_to_laserscan pointcloud_to_laserscan_node cloud_in:=/your_velodyne_points
+
+

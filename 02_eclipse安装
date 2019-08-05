@@ -147,6 +147,10 @@ CDT GCC Built-in Compiler Settings [Shared]
 
 右键[Project] -> [clean Project] -> [build Project]
 
+-> 相关头文件找不到：
+C/C++ General - paths and Symbols - GNU C++ 加入头文件地址：
+Catkin_ws - devel - include
+
 
 
 
@@ -176,6 +180,10 @@ eclipse -nl en
 自动：
 在eclipse安装目录找到eclipse.ini文件
 在末尾加入 -Duser.language=en重启eclipse就能看到是英文版的了。
+
+13. PCL in Eclipse
+$ cd /path_to_my_project/build
+$ cmake -G "Eclipse CDT4 - Unix Makefiles" ../src
 
 
 

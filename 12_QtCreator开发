@@ -4,6 +4,10 @@ $ gedit ~/.local/share/applications/QtProject-qtcreator-ros-latest.desktop
 Exec=bash -i -c /home/liang/QtCreator/latest/bin/qtcreator-ros
 以上为安装地址，建议安装在/opt 或 /usr/local下面
 
+中文注释开启：
+$ cd /home/liang/QtCreator/latest/lib/Qt/plugins/platforminputcontexts
+$ sudo cp /usr/lib/x86_64-linux-gnu/qt5/plugins/platforminputcontexts/libfcitxplatforminputcontextplugin.so .
+
 02.快捷键：
 qtcreator-ros     终端启动qt
 ctrl+A            全选

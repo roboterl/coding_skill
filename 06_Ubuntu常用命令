@@ -33,9 +33,20 @@ chmod 777 * -R
 查看当前路径：
 pwd
 
+查看所有串口：
+$ ls /dev/tty*
 
+查看指定串口：
+ls -l /dev/ttyACM0
 
+查看正在使用的串口：
+$ dmesg | grep tty
 
+开启串口权限：
+$ sudo chmod a+rw /dev/ttyACM0
+
+添加管理员权限：
+$ sudo usermod -a -G dialout liang
 
 
 

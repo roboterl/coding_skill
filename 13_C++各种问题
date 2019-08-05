@@ -6,7 +6,7 @@
 
 3.编写程序时显示出错 --> 试试保存。
 
-2.编译文件：
+4.编译文件：
 在CMakeLists.txt的文件夹中新建build文件夹
 $ cd build
 $ cmake .. 
@@ -14,6 +14,20 @@ $ make
 
 cmake命令将CMakeLists.txt文件转化为make所需要的makefile文件，最后用make命令编译源码生成可执行程序或共享库
 
-导入已有c++项目：
+5.导入已有c++项目：
 import-General-Existing Projects into Workspace
 项目属性-C/C++ Build -设置目录，选中Build command:make
+
+
+6. 安装 Eigen包：
+unzip 3.3.5.zip
+cd eigen-git-mirror-3.3.5/
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+7.PCL编译:
+$ cd /path_to_my_project/build
+$ cmake -G "Eclipse CDT4 - Unix Makefiles" ..  //CmakeLists 所在目录

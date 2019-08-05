@@ -43,8 +43,17 @@ export PKG_CONFIG_PATH
 $ sudo source /etc/bash.bashrc
 $ sudo updatedb  
 
+查看linux下的opencv安装库：
+pkg-config opencv --libs
 
+查看linux下的opencv安装版本：
+pkg-config opencv --modversion
 
+查看linux下的opencv安装路径：
+sudo find / -iname "*opencv*"
+
+在全盘上不区分大小写，搜索带有关键字opencv的所有文件及文件夹都会输出到终端，如果输出太长建议输出到txt文件里查看，如下：
+sudo find / -iname "*opencv*" > /home/ubuntu/Desktop/opencv_find.txt
 
 
 

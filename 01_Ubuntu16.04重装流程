@@ -20,6 +20,21 @@
     efi系统分区：逻辑分区，512M。
     /home：逻辑分区，150G。
     /：逻辑分区，40G
+    
+    修复ubuntu引导（只能进入win界面）
+    １：准备一个安装Ｕ盘，插入电脑－＞开机－＞选择试用Try ubuntu without install
+    $ sudo su
+# sudo add-apt-repository ppa:yannubuntu/boot-repair
+# apt-get update
+# apt-get install boot-repair
+在dash中搜索boot-repair，点recommand repair之后会自动执行，静候几分钟，等其结束后关机，拔掉Ｕ盘，开机
+
+2：开机之后，会出现类似于这样一个界面，发现多了很多不必要的选项
+
+独立显卡：
+https://blog.csdn.net/u014561933/article/details/79958017
+
+
 
 ===========================================================
 三. 安装app
@@ -191,8 +206,15 @@ sudo update-grub
 
 
 --> 小红点加速：
-$ gedit ~/.xprofile
+首先在终端下取得小红点的ID：
+$ xinput list | grep TrackPoint
 
+然后获得该ID的设置：
+$ xinput list-props 13
+小红点的固定阻力值(Constant Deceleration)，取值范围是 [0,1]
+可以人工设置： $ xinput set-prop 13 276 0.1
+
+$ gedit ~/.xprofile
 *****************************************************************
 #!/bin/bash
 
@@ -202,11 +224,11 @@ TP_ID=$(xinput list | grep TrackPoint | cut -f 2 | grep -Eo '[0-9]{1,}')
 if [ -n "$TP_ID" ]; then
         # obtain properties from xinput list-props "$TP_ID"
         AS_ID=$(xinput list-props "$TP_ID" | grep 'Accel Constant Deceleration (' | cut -f 2 | grep -Eo '[0-9]{1,}')
-        # set the speed you want
+        # 越小阻力越小
         xinput set-prop "$TP_ID" "$AS_ID" 0.20 
 fi
 *****************************************************************
-
+$ chmod +x ~/.xprofile (修改权限)
 
 
 ===========================================================
@@ -223,6 +245,8 @@ sudo apt-get autoremove
 su
 
 tar cvpzf /home/liang/Backup/backup_`date +%Y%m%d`.tgz --exclude=/proc --exclude=/lost+found --exclude=/home/liang/Backup/backup_`date +%Y%m%d`.tgz --exclude=/mnt --exclude=/sys --exclude=/media /
+
+tar -cvpzf /media/liang/Red/UbuntuBackup@`date +%Y-%m+%d`.tar.gz --exclude=/proc --exclude=/tmp --exclude=/boot --exclude=/home --exclude=/lost+found --exclude=/media --exclude=/mnt --exclude=/run /
 
 v: 显示详细的压缩信息
 c：创建tar包

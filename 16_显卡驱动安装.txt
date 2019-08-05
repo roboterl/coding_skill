@@ -1,0 +1,72 @@
+https://blog.csdn.net/u014561933/article/details/79958017
+
+1.卸载系统里的Nvidia低版本显卡驱动
+sudo apt-get purge nvidia*
+或者安装包直接卸载
+./NVIDIA-Linux-x86_64-390.48.run --uninstall 
+
+安装可能需要的依赖
+sudo apt-get update 
+ sudo apt-get install dkms build-essential linux-headers-generic
+ 
+sudo apt-get install gcc-multilib xorg-dev
+ 
+sudo apt-get install freeglut3-dev libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev
+
+2.禁用nouveau第三方驱动，之后也不需要改回来
+/etc/modprobe.d/blacklist.conf
+在最后一行添加：
+blacklist nouveau 
+
+3.更新内核
+sudo update-initramfs -u
+若提示缺少文件：
+https://blog.csdn.net/dzhongjie/article/details/84306900
+首先去到这个网址，你会看到很多固件的选择项，你选择自己缺的那个点击进去。
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/i915
+
+4.重启后执行：（无输出即可）
+lsmod | grep nouveau
+
+5.关闭图形界面，禁用X服务
+sudo /etc/init.d/lightdm stop
+
+6. 进入命令行界面
+Ctrl-Alt+F1
+
+7.进入安装文件夹
+sudo chmod a+x NVIDIA-Linux-x86_64-375.20.run
+sudo ./NVIDIA-Linux-x86_64-375.20.run –no-opengl-files
+–no-opengl-files 只安装驱动文件，不安装OpenGL文件。（省略会导致循环黑屏）
+–no-x-check 安装驱动时不检查X服务，非必需，我们已经禁用图形界面。
+–no-nouveau-check 安装驱动时不检查nouveau，非必需，我们已经禁用驱动。
+
+8. 安装界面提示
+The distribution-provided pre-install script failed! Are you sure you want to continue? 选择 yes 继续。
+Would you like to register the kernel module souces with DKMS? This will allow DKMS to automatically build a new module, if you install a different kernel later?  选择 No 继续。
+Nvidia's 32-bit compatibility libraries? 选择 No 继续
+Would you like to run the nvidia-xconfigutility to automatically update your x configuration so that the NVIDIA x driver will be used when you restart x? Any pre-existing x confile will be backed up.  选择 No  继续
+
+nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
+sudo service lightdm start #没自动跳的话 crtl+alt+f7
+重启
+nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
