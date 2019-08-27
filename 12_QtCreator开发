@@ -1,3 +1,11 @@
+00. 安装：
+https://github.com/Levi-Armstrong/ros_qtc_plugins/wiki/Setup-Qt-Creator-for-ROS
+lauch，xml文件支持：
+Tools > Options > Environment > MIME Types
+application/xml：*.launch; *.xacro; *.urdf
+text/plain：*.srv; *.msg
+
+
 01.图标启动同时加载ROS环境参数:
 $ gedit ~/.local/share/applications/QtProject-qtcreator-ros-latest.desktop
 第二行Exec后增加'bash -i -c'
