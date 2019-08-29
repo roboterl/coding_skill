@@ -286,6 +286,10 @@ sudo add-apt-repository ppa:yannubuntu/boot-repair && sudo apt-get update
 sudo apt-get install -y boot-repair && boot-repair
 4.出现图形界面，点击Recommended repair，过几分钟重启就行了。
 
+正在等待报头：
+sudo apt clean
+sudo rm -rf /var/lib/apt/lists/*  删除了该目录
+sudo apt-get update
 
 
 
