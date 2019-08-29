@@ -48,6 +48,9 @@ $ sudo chmod a+rw /dev/ttyACM0
 添加管理员权限：
 $ sudo usermod -a -G dialout liang
 
+查看内核版本
+$ uname -r
+
 
 
 
