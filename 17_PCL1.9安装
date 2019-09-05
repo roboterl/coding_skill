@@ -1,0 +1,48 @@
+https://blog.csdn.net/subiluo/article/details/94001456
+
+1. 下载源码 https://github.com/PointCloudLibrary/pcl/releases
+
+2. 安装依赖
+sudo apt-get update
+sudo apt-get install g++ git build-essential linux-libc-dev cmake cmake-gui doxygen 
+mpi-default-dev openmpi-bin openmpi-common libflann1.8 libflann-dev libeigen3-dev libboost-all-dev 
+libvtk6-dev libvtk6.2 libvtk6.2-qt 'libqhull*' libusb-dev libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete qt-sdk openjdk-9-jdk openjdk-9-jre phonon-backend-gstreamer phonon-backend-vlc libopenni-dev libopenni2-dev git  linux-libc-dev libudev-dev mono-complete 
+
+3. 解压你下载的PCL1.9源码包
+cd pcl-pcl-1.9.1/
+mkdir build
+cd build/
+cmake -DPCL_DIR=/usr/local/share/pcl-1.9 ..
+cmake -DCMAKE_BUILD_TYPE=None -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_GPU=ON -DBUILD_apps=ON -DBUILD_examples=ON -DCMAKE_INSTALL_PREFIX=/usr ..
+
+4. 之后就编译吧，电脑性能好你j4，j6一直加
+make -j8
+
+5. 默认安装到/usr/local目录下，而pcl1.7默认是在/usr/include和/usr/lib下的
+sudo make install
+
+6. 使用 Cmakelists， 如果你已经安装到系统目录，就把set注释掉。
+----------------------------------------------------------------------------
+cmake_minimum_required(VERSION 2.4.6)
+
+project(test_pcl)
+
+set(PCL_DIR "/home/usr-..-/Downloads/pcl-pcl-1.9.1/build/PCLConfig.cmake")
+
+if(COMMAND cmake_policy)
+     cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+find_package(PCL 1.9 REQUIRED)
+
+include_directories(${PCL_INCLUDE_DIRS})
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries (${PROJECT_NAME}
+    ${PCL_LIBRARIES}
+ )
+----------------------------------------------------------------------------
+版权声明：本文为CSDN博主「苏碧落」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/subiluo/article/details/94001456
+
+
+
