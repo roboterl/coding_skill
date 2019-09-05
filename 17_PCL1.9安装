@@ -8,6 +8,20 @@ sudo apt-get install g++ git build-essential linux-libc-dev cmake cmake-gui doxy
 mpi-default-dev openmpi-bin openmpi-common libflann1.8 libflann-dev libeigen3-dev libboost-all-dev 
 libvtk6-dev libvtk6.2 libvtk6.2-qt 'libqhull*' libusb-dev libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete qt-sdk openjdk-9-jdk openjdk-9-jre phonon-backend-gstreamer phonon-backend-vlc libopenni-dev libopenni2-dev git  linux-libc-dev libudev-dev mono-complete 
 
+2.1 安装最新版本cmake
+wget https://github.com/Kitware/CMake/releases/download/v3.14.2/cmake-3.14.2.tar.gz
+2.2 解压
+2.3 移到系统安装目录
+sudo mv cmake-3.14.2 /opt/cmake-3.14.2 
+sudo ln -sf /opt/cmake-3.14.2/bin/* /usr/bin/
+2.4 编译
+cd /opt/cmake-3.14.2
+sudo ./bootstrap 
+sudo make 
+sudo make install 
+cmake --version，
+返回cmake版本信息，则说明安装成功
+
 3. 解压你下载的PCL1.9源码包
 cd pcl-pcl-1.9.1/
 mkdir build
