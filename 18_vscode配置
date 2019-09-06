@@ -1,0 +1,107 @@
+1. 安装
+
+2. 安装左下角插件：
+Chinese Language, XML, ROS(deprecated), C/C++, CMake, Msg Language Support, Bracket Pair Colorizer, C/C++ Clang Command Adapter, CMake Tools
+
+3. 打开json设置：
+设置中搜索 workbench.settings.useSplitJSON， 重启， 左下角设置-右上角打开json
+
+4. json文件配置：
+打开Cmake工程文件夹（编写cpp, CMakeLists.txt）
+在.vscode要建立三个json文件才能对Cmake工程进行编译和调试，分别是c_cpp_properties.json，launch.json和tasks.json
+
+“https://blog.csdn.net/orange_littlegirl/article/details/88397361”
+
+c_cpp_properties.json
+-------------------------------------------------------------------------------
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/local/cuda/include",
+                "/usr/local/include/pcl-1.9",
+                "/usr/include/eigen3",
+                "/usr/include/vtk-6.2"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
+-------------------------------------------------------------------------------
+
+
+tasks.json
+-------------------------------------------------------------------------------
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make build",//编译的项目名，build
+            "type": "shell",
+            "command": "mkdir build ; cd ./build ; cmake .. ; make",//编译命令
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make clean",
+            
+
+        }
+    ]
+}
+-------------------------------------------------------------------------------
+
+launch.json
+-------------------------------------------------------------------------------
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build",// 表示可执行程序所在的路径，其中，${workspaceRoot}表示VScode加载的文件夹的根目录
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [ 
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "make build"###最好删了，不然会影响调试，每次调试都直接执行make build
+        }
+    ]
+}
+-------------------------------------------------------------------------------
+
+
+
+
+
