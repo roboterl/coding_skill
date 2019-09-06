@@ -6,9 +6,10 @@ Chinese Language, XML, ROS(deprecated), C/C++, CMake, Msg Language Support, Brac
 3. 打开json设置：
 设置中搜索 workbench.settings.useSplitJSON， 重启， 左下角设置-右上角打开json
 
-4. json文件配置：
-打开Cmake工程文件夹（编写cpp, CMakeLists.txt）
-在.vscode要建立三个json文件才能对Cmake工程进行编译和调试，分别是c_cpp_properties.json，launch.json和tasks.json
+4. 使用vscode编译，json文件配置：
+- 打开Cmake工程文件夹（编写cpp, CMakeLists.txt）
+- 在.vscode要建立三个json文件才能对Cmake工程进行编译和调试，分别是c_cpp_properties.json，launch.json和tasks.json
+- ctrl+shift+B
 
 “https://blog.csdn.net/orange_littlegirl/article/details/88397361”
 
@@ -50,7 +51,7 @@ tasks.json
         {
             "label": "make build",//编译的项目名，build
             "type": "shell",
-            "command": "mkdir build ; cd ./build ; cmake .. ; make",//编译命令
+            "command": "mkdir build ; cd ./build ; cmake .. ; make -j4",//编译命令
             "group": {
                 "kind": "build",
                 "isDefault": true
