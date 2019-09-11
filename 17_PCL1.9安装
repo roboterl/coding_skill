@@ -4,9 +4,20 @@ https://blog.csdn.net/subiluo/article/details/94001456
 
 2. 安装依赖
 sudo apt-get update
-sudo apt-get install g++ git build-essential linux-libc-dev cmake cmake-gui doxygen 
+sudo apt-get install  
+---------------------------------------------------------------------------------
+g++ git build-essential linux-libc-dev cmake cmake-gui doxygen 
+
 mpi-default-dev openmpi-bin openmpi-common libflann1.8 libflann-dev libeigen3-dev libboost-all-dev 
-libvtk6-dev libvtk6.2 libvtk6.2-qt 'libqhull*' libusb-dev libgtest-dev git-core freeglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete qt-sdk openjdk-9-jdk openjdk-9-jre phonon-backend-gstreamer phonon-backend-vlc libopenni-dev libopenni2-dev git  linux-libc-dev libudev-dev mono-complete 
+
+libvtk6-dev libvtk6.2 libvtk6.2-qt 'libqhull*' libusb-dev libgtest-dev git-core freeglut3-dev 
+
+pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev graphviz mono-complete 
+
+qt-sdk openjdk-9-jdk openjdk-9-jre phonon-backend-gstreamer phonon-backend-vlc libopenni-dev 
+
+libopenni2-dev git  linux-libc-dev libudev-dev mono-complete 
+---------------------------------------------------------------------------------
 
 2.1 安装最新版本cmake
 wget https://github.com/Kitware/CMake/releases/download/v3.14.2/cmake-3.14.2.tar.gz

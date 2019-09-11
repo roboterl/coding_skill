@@ -24,3 +24,26 @@ rostopic type /xxx | rosmsg show
 C/C++ General - paths and Symbols - GNU C++ 加入头文件地址：
 Catkin_ws - devel - include
 
+
+-> 播放/读写bag包时某些topic播放失败
+https://blog.csdn.net/tap880507/article/details/87214288
+
+在使用rqt播放bag包时，有时会出现某些topic无法播放的情况。
+报错现象是UnicodeDecodeError: 'ascii' codec can't decode byte 0xe6 in position 1905等相关类型的错误。
+原因是由于自定义消息中的string类型变量编码格式为UTF-8格式编码，解码为ASCII码时会报错。解决思路是：
+打开/opt/ros/jade/lib/python2.7/dist-packages/genpy/dynamic.py文件，
+将tmp_file.file.write(full_text.encode()) 改为 tmp_file.file.write(full_text) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
